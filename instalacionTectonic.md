@@ -1,162 +1,74 @@
-# Guía de Instalación y Uso de Tectonic (Cyber Range GSI-FING)
+# Tectonic Lab - Setup Básico
 
-Esta guía detalla paso a paso cómo instalar y desplegar escenarios de ciberseguridad usando **Tectonic**, desarrollado por el GSI de FING (Udelar). Ideal para preparación de laboratorios, enseñanza o pruebas de tesis.
-
----
-
-## 📦 1. Instalación de Dependencias en Ubuntu
-
-### 🔧 Actualizar el sistema
-
-```bash
-sudo apt-get update
-```
-
-### 🧰 Instalar paquetes base necesarios
-
-```bash
-sudo apt-get install -y python3 python3-pip build-essential pkg-config libvirt-dev python3-dev
-```
+Este README documenta el proceso de instalación de Tectonic hasta la parte de configuración *previa a AWS*, más algunos ajustes personalizados necesarios para levantar escenarios localmente sin Elastic.
 
 ---
 
-## 🌍 2. Instalar Terraform y Packer
+### Seguir los pasos de este link 
 
-### Agregar repositorio de HashiCorp
+- https://github.com/GSI-Fing-Udelar/tectonic/blob/main/docs/installation.md
+- Hasta la sección que habla de AWS.
 
-```bash
-sudo apt-get install -y gnupg software-properties-common curl
-curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/hashicorp-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" |   sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt-get update
-```
+### Luego setear el ambiente
 
-### Instalar herramientas
+- Modificar tectonic.ini:
+    - lab_repo_uri = /home/rodrigo/tectonic/examples (aca poner donde esta tectonic/examples)
+    - ssh_public_key_file = ~/.ssh/raguillon_id_rsa.pub (aca poner la ruta al id de la clave pública)
 
-```bash
-sudo apt-get install terraform
-sudo apt install packer ansible -y
-```
 
-Verificar versiones:
+- Modificar examples/password_cracking/description.yml:
 
-```bash
-terraform -v
-packer -v
-ansible --version
-```
+    - elastic_settings:
+        - enable: no
 
----
 
-## 🧠 3. Clonar el repositorio de Tectonic
+### Ejecutar el docker que levante el ambiente
 
-```bash
-git clone https://github.com/GSI-Fing-Udelar/tectonic.git
-cd tectonic/
-```
+- tectonic -c tectonic.ini examples/password_cracking.yml deploy --images
 
----
+### Descubrir las IP de acada contenedor (victim y attacker)
 
-## ⚙️ 4. Instalar Tectonic CLI (python)
+- `docker ps`
+- `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e7c231c21b4f` (el último parámetro es el número del contendor)
+- A partir de ahi sabemos la IP tanto del attacker tanto como del victim.
 
-```bash
-python3 -m pip install --user tectonic-cyberrange
-```
+- Luego ejecutamos: `docker exec -it monstersinc-passwordcracking2024-1-attacker bash`
+- Desde el usuario trainee seguimos toda la documentación que se encuentra en el README de password_cracking.
+- Te facilito la lista de usuarios sin email que vas a tener que probar la password con el comando de HYDRA:
 
-Agregar al PATH en `.bashrc` o `.zshrc`:
+## Posibles usuarios sin email público (para fuerza bruta con Hydra)
 
-```bash
-export PATH=$HOME/.local/bin:$PATH
-source ~/.bashrc  # o source ~/.zshrc
-```
+La siguiente lista fue generada a partir del archivo `employees.html`, incluyendo únicamente aquellos empleados que **no tenían dirección de correo electrónico publicada**. Se supone que los nombres de usuario siguen el patrón: inicial del nombre + apellido (todo en minúsculas y sin tildes).
 
-Verificar:
-
-```bash
-tectonic --help
-```
-
----
-
-## 🐳 5. Configurar Docker (si se usa `platform = docker`)
-
-### Verificar si Docker está instalado:
-
-```bash
-docker version
-```
-
-### Si no funciona, iniciar Docker Desktop:
-
-```bash
-systemctl --user start docker-desktop
-docker info
-```
-
-> Si falla, asegurate de estar usando **Docker Desktop** y no `docker.io` clásico que puede dar conflictos con `containerd`.
-
----
-
-## 🧪 6. Probar escenario de ejemplo
-
-Editar archivo `tectonic.ini` y asegurarse de tener:
-
-```ini
-[config]
-platform = docker
-lab_repo_uri = ./examples
-```
-
-### Desactivar elastic temporalmente para evitar errores:
-
-Editar `examples/password_cracking.yml`:
-
-```yaml
-elastic_settings:
-  enable: no
-```
-
-### Ejecutar escenario:
-
-```bash
-tectonic -c tectonic.ini examples/password_cracking.yml deploy --images
-```
-
-> El primer run crea imágenes base con Packer y luego instancia las máquinas virtuales (o contenedores).
-
----
-
-## ✅ 7. Verificar funcionamiento
-
-- Para Docker:
-```bash
-docker ps
-```
-
-- Para ver logs:
-```bash
-tectonic --debug ...
-```
-
----
-
-## 🧼 8. Limpiar escenarios
-
-Para destruir instancias:
-
-```bash
-tectonic -c tectonic.ini examples/password_cracking.yml destroy
-```
-
----
-
-## 📎 Notas
-
-- Si falla por "imagen 'elastic' no encontrada", desactivar Elastic en el YAML como se indica arriba.
-- Si falla `docker.sock`, asegurate de que el daemon esté activo (`docker info` debería responder).
-
----
-
-## 🎯 Listo
-
-Con esto tenés Tectonic instalado, funcional y con tu primer escenario desplegado. Ideal para entrenar Red Team, Blue Team y prácticas forenses. 🧠💻
+```txt
+halagia
+aarevalo
+gbandieri
+abrunetti
+mbuteler
+pcalatayud
+ccirelli
+adiscala
+jescobar
+rfernández
+pferreyra
+pgleiser
+pgrosman
+rguibert
+jjuarez
+dlescano
+amajtey
+rmellano
+fmiotti
+rnieto
+moliva
+epilotta
+oreula
+crosas
+cschurrer
+murciuolo
+surreta
+nveglio
+nwolovick
+mzuriaga
+``` 
