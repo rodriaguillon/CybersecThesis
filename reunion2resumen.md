@@ -1,9 +1,3 @@
-Genial. Me voy a enfocar en investigar cómo utilizar Tectonic como plataforma principal para crear un cyber range práctico orientado a la enseñanza de análisis forense digital y gestión de incidentes en un posgrado de ciberseguridad.
-
-Buscaré los conceptos fundamentales que deben aprender los estudiantes con experiencia previa, cómo se puede enseñar de forma efectiva mediante escenarios prácticos (basados en casos reales pero simples), y cómo implementar estos laboratorios en Tectonic integrando herramientas como Elastic, Caldera y Ansible.
-
-Te mantengo al tanto con los avances pronto.
-
 # Diseño de un Cyber Range Educativo para Análisis Forense Digital y Gestión de Incidentes
 
 ## Introducción  
