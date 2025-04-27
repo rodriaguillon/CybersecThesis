@@ -1,39 +1,138 @@
 # Diseño de un Cyber Range Educativo para Análisis Forense Digital y Gestión de Incidentes
 
-## Introducción  
-En un posgrado de ciberseguridad de 8 semanas, enfocado en **análisis forense digital y gestión de incidentes**, es esencial combinar teoría con práctica en un entorno controlado. Un **cyber range educativo** permitirá a los estudiantes aplicar metodologías de respuesta ante ataques realistas en escenarios con tráfico benigno y malicioso mezclado. A continuación, se detalla una investigación sobre los conceptos fundamentales de DFIR (Digital Forensics and Incident Response), las buenas prácticas pedagógicas para enseñanza práctica, el diseño progresivo de escenarios, el uso de la plataforma Tectonic para implementarlos, la integración de herramientas (Elastic, Caldera, Ansible) para mejorar la experiencia y evaluación, y ejemplos inspiradores de otras instituciones.
-
 ## Conceptos Fundamentales en Análisis Forense Digital y Gestión de Incidentes  
 Una base teórica sólida de DFIR guía las prácticas en el cyber range. Los puntos clave incluyen:
 
 ### Análisis forense digital  
-- **Definición**: Disciplina que investiga y reconstruye incidentes de ciberseguridad mediante la **recolección, preservación, examen y análisis de evidencia digital**. Busca entender qué ocurrió, cómo ocurrió e identificar a los responsables, manteniendo la integridad de las pruebas (cadena de custodia).  
+- **Definición**: El uso de técnicas científicamente comprobadas para recolectar, fusionar, identificar, examinar, correlacionar, analizar y documentar evidencia digital proveniente de múltiples fuentes digitales que están procesando y transmitiendo activamente información, con el propósito de descubrir hechos relacionados con la intención planificada o el éxito medido de actividades no autorizadas destinadas a interrumpir, corromper o comprometer componentes del sistema, así como también de proporcionar información que asista en la respuesta o recuperación ante estas actividades. (ESTA SALIO DEL WORKSHOP)
+
 - **Cadena de custodia**: Procedimiento formal para documentar cómo se recopilan, transfieren y almacenan las evidencias. Garantiza que la evidencia digital no sea manipulada y pueda usarse con validez legal.  
-- **Fuentes de evidencia**: Datos extraídos de sistemas de archivos (archivos en discos/endpoints), memoria RAM, tráfico de red (p.ej. capturas PCAP, registros de comunicaciones) y registros de aplicacioneseso%20aleatorio%20,de%20aplicaciones%20y%20otro%20software, entre otros. Es crucial obtener copias forenses (imágenes bit a bit) de estos datos para preservar los originales.  
-- **Fases del análisis forense** (según NIST y otros estándares):
-  1. **Recopilación de datos** – Adquisición de evidencias digitales relevantes (discos, memoria, logs, etc.) tras un incidente, asegurando no alterar los originales . Se sigue la regla “de más volátil a menos volátil” (primero memoria y datos temporales, luego disco).  
-  2. **Examen** – Búsqueda preliminar de indicadores de actividad maliciosa en los datos recolectados (ej.: correos phishing, archivos alterados, conexiones sospechosas). Se filtra información irrelevante para enfocar el análisis.  
-  3. **Análisis** – Correlación e interpretación profunda de la evidencia mediante técnicas forenses. Incluye reconstruir la línea de tiempo del incidente, analizar malware encontrado, revisar logs para determinar acciones del atacante. Se pueden usar fuentes de inteligencia de amenazas para atribución%20investigadores%20emplean%20t%C3%A9cnicas%20forenses,con%20actores%20de%20amenazas%20espec%C3%ADficos.  
-  4. **Informe** – Documentación de hallazgos y conclusiones. Un reporte forense describe lo sucedido, qué brechas se explotaron, qué datos fueron comprometidos y recomienda mejoras para prevenir incidentes futuros. Este informe puede servir para acciones legales o auditorías.  
+- **Fuentes de evidencia**: Datos extraídos de sistemas de archivos (archivos en discos/endpoints), memoria RAM, tráfico de red (p.ej. capturas PCAP, registros de comunicaciones) y registros de aplicaciones, entre otros. Es crucial obtener copias forenses (imágenes bit a bit) de estos datos para preservar los originales.  
 
-> **Nota:** Algunos enfoques desglosan más fases, separando la *preservación* de evidencia como un paso explícito antes del análisis, y enfatizando la *documentación continua* durante todo el proceso. Lo importante es cubrir desde la obtención de datos hasta la presentación de resultados de forma rigurosa y reproducible.
+- **Fases del análisis forense** (según NIST):
 
+1. **Recopilación de datos**  
+   Esta fase implica la adquisición segura de todas las evidencias digitales relevantes relacionadas con un incidente. Se prioriza la recolección siguiendo el **principio de volatilidad**: primero los datos más efímeros (memoria RAM, conexiones activas), luego los datos persistentes (discos, backups).  
+   - El objetivo es preservar la integridad de la evidencia, garantizando que los originales no sean alterados en el proceso.
+   - Se utilizan herramientas de adquisición forense certificadas que permiten generar copias bit a bit de dispositivos de almacenamiento y capturar imágenes de memoria.
+   - Es fundamental documentar toda acción realizada sobre las evidencias (cadena de custodia).
+
+2. **Examen**  
+   Una vez recolectados los datos, se realiza un primer análisis estructurado de los mismos para identificar posibles indicadores de compromiso (IoCs).  
+   - Esta etapa implica **filtrar la información irrelevante** para enfocar el esfuerzo en artefactos que podrían revelar actividades maliciosas.
+   - Ejemplos de análisis preliminar incluyen la búsqueda de:
+     - Correos electrónicos de phishing.
+     - Archivos alterados o inesperados.
+     - Conexiones de red no autorizadas.
+     - Modificaciones sospechosas en el registro de Windows o sistemas de archivos.
+   - Se deben aplicar técnicas de hashing para verificar la integridad de los archivos recolectados.
+
+3. **Análisis**  
+   Es la fase más profunda, donde se correlaciona toda la información relevante para **reconstruir la narrativa completa del incidente**.  
+   - Se busca responder preguntas clave:
+     - ¿Cómo ocurrió el ataque? (vector de entrada).
+     - ¿Qué vulnerabilidades fueron explotadas?
+     - ¿Qué sistemas fueron comprometidos?
+     - ¿Qué acciones realizó el atacante (movimiento lateral, exfiltración de datos, instalación de malware)?
+     - ¿Qué información fue robada o alterada?
+   - Se reconstruyen **líneas de tiempo forenses** a partir de metadatos, logs de eventos y huellas dejadas por el atacante.
+   - Se pueden utilizar herramientas específicas para análisis de malware, análisis de tráfico de red, o correlación de eventos múltiples.
+   - En algunos casos, se integran fuentes de **inteligencia de amenazas** para atribuir la actividad a grupos conocidos.
+
+4. **Informe**  
+   El análisis culmina en la elaboración de un **informe forense** detallado, que debe ser claro, estructurado y técnicamente sólido.  
+   - El informe incluye:
+     - Descripción del incidente y línea de tiempo reconstruida.
+     - Evidencias halladas y su interpretación.
+     - Impacto en los sistemas afectados.
+     - Vulnerabilidades explotadas y debilidades identificadas.
+     - Recomendaciones para prevenir incidentes similares en el futuro.
+   - Además, se debe:
+     - Explicar el proceso metodológico seguido (para asegurar reproducibilidad).
+     - Evitar tecnicismos innecesarios si el informe será presentado ante audiencias no técnicas (ej.: alta dirección, abogados).
+   - El informe puede ser utilizado como evidencia en procedimientos legales o auditorías regulatorias, por lo que su **precisión y formalismo** son fundamentales.
+
+---
 ### Respuesta a incidentes (gestión de incidentes)  
 - **Definición**: Conjunto de procedimientos y prácticas para detectar, contener y responder a incidentes de seguridad, minimizando su impacto. Su objetivo es **detener el ataque rápidamente, reducir el daño, recuperar sistemas** y aprender del evento. Una respuesta eficaz combina medidas técnicas y organizativas (comunicación, reporting, mejoras).  
 - **Plan de respuesta**: Las organizaciones deben contar con un **plan de respuesta a incidentes (IRP)** que establezca pasos, roles y responsabilidades cuando ocurre una brecha de seguridad. Los estudiantes deben familiarizarse con estos planes y con marcos de referencia como NIST SP 800-61 o ISO/IEC 27035.  
 - **Fases del manejo de incidentes** (basadas en NIST/CERT):
-  1. **Preparación** – Desarrollo de capacidades previas: políticas de seguridad, copias de respaldo, entrenamiento, herramientas forenses preparadas, y simulacros. Incluye evaluar riesgos y vulnerabilidades continuamente.  
-  2. **Detección y análisis** – Monitoreo de alertas y eventos para identificar incidentes. Implica analizar logs (p. ej. SIEM), correlacionar señales de ataque y descartar falsos positivos. Una vez confirmado un incidente, se clasifica su severidad y alcance.  
-  3. **Contención** – Aislar los sistemas afectados para impedir que el ataque se propague. Ej.: desconectar una máquina infectada de la red, bloquear cuentas comprometidas, aplicar reglas de firewall.  
-  4. **Erradicación** – Eliminar la amenaza de los sistemas: borrar malware, cerrar brechas explotadas, actualizar parches. Asegurarse de remover *todas* las puertas traseras (back doors) o persistencias del atacante.  
-  5. **Recuperación** – Restaurar sistemas y servicios a la normalidad de forma controlada. Puede involucrar reinstalar sistemas desde backups limpios, monitorizar estrechamente durante un tiempo para verificar que la amenaza no reaparece.  
-  6. **Lecciones aprendidas** – Tras el incidente, realizar una revisión post-mortem. Documentar qué ocurrió, evaluar la efectividad de la respuesta, y ajustar el plan de respuesta y las medidas de seguridad para el futuro. Esta etapa de *retroalimentación* es crucial para mejorar la postura de seguridad.  
+ 1. **Preparación** 
+Uno de los componentes más críticos de la fase de preparación consiste en la elaboración de un Plan de Respuesta a Incidentes (IRP). Una vez que dicho plan se encuentra desarrollado e implementado, resulta esencial garantizar que el personal involucrado en tareas de respuesta a incidentes esté debidamente capacitado y cuente con una comprensión detallada y práctica de los procesos y procedimientos establecidos. Esta capacitación debe abarcar tanto los aspectos metodológicos como el uso de herramientas adicionales necesarias para llevar a cabo investigaciones forenses de manera efectiva.
+
+Además de la formalización del plan, es indispensable la adquisición e integración de equipamiento especializado, incluyendo hardware forense y software de análisis, dentro del esquema general de preparación. Estos recursos deben estar disponibles y actualizados para ser utilizados de inmediato ante la ocurrencia de un incidente.
+
+Por último, es fundamental que la organización lleve a cabo ejercicios de simulación de incidentes de forma periódica. Estas prácticas permiten evaluar la eficacia del plan, reforzar la familiaridad del personal con los procedimientos, identificar oportunidades de mejora, y asegurar que, llegado el momento, la respuesta se realice de forma ágil, coordinada y eficiente.
+
+-- AGREGAR TODA LA INFO DE LO QUE ES UN IRP, Y AGREGAR UN EJEMPLO COMO EL DE CIBERSECURITY GRINGA PARA LOS PROFES ---
+
+2. **Detección**
+Es el momento en que la organización identifica indicios de actividad maliciosa. Puede originarse en alertas de seguridad, reportes de usuarios o notificaciones externas (por ejemplo, de un ISP o de autoridades). El desafío principal es filtrar señales reales de una gran cantidad de eventos legítimos.
+
+3. **Análisis**
+Una vez detectado un incidente, se recolecta evidencia (memoria, logs, conexiones de red) para reconstruir lo sucedido. Una vez que la información es recolectada, debe ser examinada. El objetivo principal del análisis es determinar la causa raíz del incidente y reconstruir las acciones que llevaron al actor maligno inicialmente a comprometer el sistema hasta su detección posterior.
+
+4. **Contención**
+En esta fase, las organizaciones toman medidas para limitar las posibilidades que tiene el actor maligno de poder comprometer otras redes de tráfico, comunicarse mediante comandos y controlar las infraestructuras, o filtrando información confidencial. Las estrategias de contención pueden ir desde bloqueo de puertos e IPs en un firewall hasta simplemente quitar el cable de red de una máquina infectada.
+
+5. **Erradicación y Recuperación**
+Durante la fase de erradicación, la organización quita al actor maligno de la red comprometida. En el caso de una infección mediante malware, la organización ejecuta soluciones anti-malware mejoradas. En otro caso, las máquinas son limpiadas y se rehacen sus imágenes. Otras actividades pueden incluir quitar o cambiar las cuentas de usuario comprometidas. Si una organización encuentra vulnerabilidades que están siendo explotadas, se aplican parches, o software updates correspondientemente. 
+
+Las actividades de recuperación van muy alineadas con aquellas que pueden ser encnotradas en sus planes de `business continuity` o `disaster recovery`. En esta fase del proceso, las organizaciones reinstalan con nuevos sistemas opertativos o aplicaciones. También restauran información en los sistemas locales desde sus backups. Como medida de diligencia, las organizaciones también auditarán sus cuentas de usuario y administrador existentes para garantizar que no haya cuentas que hayan sido habilitadas por actores malignos. Finalmente, un comprensivo análisis de vulnerabilidades es llevado a cabo para que la organización esté segura que cualquier vulnerabilidad que fue explotada previamente ya no existe más actualmente.
+
+6. **Post-Incident Activity**
+Una revisión exhaustiva de lo sucedido, evaluando qué medidas funcionaron y cuáles no. Se documenta todo el proceso, se identifican mejoras para fortalecer la postura de seguridad, y se preparan reportes claros para públicos técnicos y no técnicos.
+
+--- TODO ESTO SALE DEL LIBRO DFIR.PDF (LIBRO 1) ---
 
 Una enseñanza eficaz debe asegurarse de que los estudiantes comprendan estos conceptos. Por ejemplo, deben saber cómo hacer una copia forense de un disco sin alterarlo, qué pasos seguir ante una intrusión detectada en un servidor, y cómo documentar evidencias y acciones durante el incidente. Estos fundamentos guiarán las prácticas en el laboratorio.
 
-## Escenarios de los cyber range
+# Propuesta para abordar: "Catalogar grandes áreas de respuesta a incidentes y mapear habilidades y procesos"
 
-Cada escenario debe contar con **métricas de éxito claras**: por ejemplo, haber identificado el malware y su método de infección en la Semana 1-2, o recuperado la clave de cifrado en el escenario de ransomware. Es buena idea asignar **banderas (_flags_) únicas por grupo** en el escenario final u otros, para fomentar la competencia sana y evitar que simplemente copien respuestas. Por ejemplo, se puede ocultar un hash o string único en un archivo de cada entorno que solo descubren si completan el análisis; de esta manera cada grupo reportará un flag distinto.
+## 1. Definir las **Grandes Áreas** de la Respuesta a Incidentes
+
+Separaría la respuesta a incidentes en **macro-áreas funcionales** basadas en NIST SP800-61 y en prácticas reales de Blue Team:
+
+| Área principal | Descripción resumida | Ejemplo de tareas |
+|:---------------|:---------------------|:------------------|
+| **Preparación** | Hacer que la organización esté lista antes de que ocurra un incidente. | Crear IRP, entrenar personal, configurar herramientas SIEM, adquirir equipamiento forense. |
+| **Detección y Análisis** | Identificar incidentes y comprender su naturaleza. | Monitorear SIEM, correlacionar eventos, detectar anomalías, confirmar incidentes. |
+| **Contención, Erradicación y Recuperación** | Limitar el daño, eliminar la amenaza y restaurar servicios. | Aislar sistemas, cerrar brechas, reinstalar sistemas, restaurar backups. |
+| **Análisis Forense** | Preservar evidencia y reconstruir el incidente para entender qué pasó. | Adquirir discos y memoria, construir líneas de tiempo, analizar tráfico de red. |
+| **Comunicación y Coordinación** | Coordinar la respuesta, documentar, informar a stakeholders. | Documentar acciones, preparar informes técnicos, realizar comunicaciones internas/externas. |
+
+---
+
+## 2. Catalogar las **Habilidades** necesarias en cada Área
+
+A partir de esas áreas, definir **qué habilidades prácticas** debe demostrar un estudiante (basado en tu bibliografía + workshop 2001 + experiencia real):
+
+| Área | Habilidades clave |
+|:-----|:-----------------|
+| Preparación | Conocimiento de IRP, manejo de herramientas SIEM, scripting básico para automatizaciones, conocimiento básico de arquitectura de red. |
+| Detección y Análisis | Análisis de logs, correlación de eventos, uso de SIEM, interpretación de alertas, diferenciación de falsos positivos. |
+| Contención, Erradicación y Recuperación | Identificación de vectores de ataque, aislamiento de sistemas, restauración desde backups, hardening básico post-incidente. |
+| Análisis Forense | Creación de copias forenses, preservación de cadena de custodia, uso de herramientas como Volatility, Sleuthkit, Wireshark, construcción de líneas de tiempo. |
+| Comunicación y Coordinación | Redacción de informes técnicos claros, briefing a equipos de gestión, manejo de comunicaciones en situaciones de crisis. |
+
+- **Detección:** Debe haber tráfico de red realista, logs variados (buenos y malos), un SIEM operativo (Elastic/Kibana por ejemplo).
+- **Contención y Erradicación:** Se deben permitir acciones activas como aislar una máquina (ej., simular desconexión de red) o eliminar malware.
+- **Análisis Forense:** Debe haber evidencia a adquirir: imágenes de disco, capturas de memoria, tráfico PCAP disponible.
+- **Comunicación:** Deberían entregarse consignas donde el estudiante tenga que generar informes estructurados de hallazgos.
+
+## Escenarios de los cyber range
+<!-- | **5:** Respuesta a incidente en vivo (parte 2) | **Eradicación y análisis post-mortem** – Continuación del escenario anterior tras contener la amenaza. Los estudiantes profundizan en la máquina víctima ahora aislada: recolectan evidencias (memoria, disco) y analizan cómo ocurrió la intrusión (vector de ataque, escalamiento de privilegios). Se espera que identifiquen la vulnerabilidad explotada y eliminen cualquier puerta trasera o proceso malicioso persistente. | *Erradicación*: eliminar malware, cuentas maliciosas, procesos persistentes. *Análisis forense post-incidente*: reconstruir la línea de tiempo del ataque completo (entrada, acciones del atacante, datos comprometidos). Documentación formal de hallazgos. | -->
+
+Consideramos un posible escenario en el cual, para evaluar el desempeño del estudiante en sus tareas de análisis Blue Team, se le solicite reconstruir, en la medida de sus capacidades, una línea de tiempo completa del ataque. Esta reconstrucción debe abarcar el vector de entrada, las acciones realizadas por el atacante dentro de la infraestructura y los datos comprometidos durante el incidente.
+
+La calidad y profundidad de esta línea de tiempo formarán parte integral de la documentación final de hallazgos elaborada por el estudiante.
+En este contexto, la cantidad y precisión de los elementos identificados que pueden ser aquellos tales como eventos, compromisos, movimientos laterales, persistencias y exfiltraciones, que constituirán criterios objetivos de evaluación para puntuar el desempeño en el laboratorio.
+
+De esta manera, se fomenta una evaluación que no solo considera la detección puntual de incidentes, sino también la capacidad analítica integral del estudiante para reconstruir, entender y documentar el ciclo completo del ataque.
+
+La justificación de esta forma de evaluación puede venir dada por el mero hecho de que promueve un aprendizaje profundo y significativo: el estudiante no solo debe identificar hechos aislados, sino también comprender su secuencia, causalidad y contexto técnico. Esto obliga a integrar conocimientos de adquisición forense, análisis de logs, tráfico de red y comportamiento de sistemas, consolidando las habilidades prácticas esenciales en DFIR.
+
+Cada escenario debe contar con **métricas de éxito claras**: Es buena idea asignar **banderas (_flags_) únicas por grupo** en el escenario final u otros, para fomentar la competencia sana y evitar que simplemente copien respuestas. Por ejemplo, se puede ocultar un hash o string único en un archivo de cada entorno que solo descubren si completan el análisis; de esta manera cada grupo reportará un flag distinto.
 
 ## Uso de Tectonic para Crear, Personalizar y Monitorear Escenarios  
 La plataforma **Tectonic** será la base del cyber range. Tectonic es un cyber range académico de código abierto desarrollado por la Universidad de la República (Uruguay) que permite desplegar **escenarios de ciberseguridad personalizados** mediante virtualización, con capacidades de **monitoreo en tiempo real y simulación automatizada de ataques**. Algunos aspectos clave de su uso en este contexto:
@@ -101,12 +200,13 @@ Varios centros educativos y organizaciones ya emplean enfoques similares de cybe
 En conclusión, el diseño propuesto se alinea con las mejores prácticas internacionales y locales en educación de ciberseguridad. Al adoptar Tectonic como plataforma, con su enfoque declarativo y herramientas integradas, aprovechamos una solución robusta ya probada en ambientes académicos. La integración de Elastic para monitoreo y Caldera para simulación de adversarios aporta modernidad y realismo, tal como lo hacen instituciones punteras. Y fundamentar los contenidos en estándares como NIST garantiza que enseñamos lo correcto. Con todo ello, este cyber range educativo brindará a los estudiantes una **experiencia de aprendizaje práctica, envolvente y progresiva** en análisis forense digital y gestión de incidentes, preparándolos para afrontar ciberataques reales de forma competente y metódica.
 
 **Referencias:** Las referencias siguientes corresponden a documentación técnica, artículos y recursos oficiales que respaldan los puntos tratados en el informe:
-
-- IBM Security – *¿Qué es el análisis forense digital y la respuesta a incidentes (DFIR)?* ([ ¿Qué es el análisis forense digital y respuesta ante incidentes (DFIR)? | IBM](https://www.ibm.com/mx-es/topics/dfir#:~:text=El%20an%C3%A1lisis%20forense%20digital%20y,la%20evidencia%20contra%20los%20ciberdelincuentes)) ([ ¿Qué es el análisis forense digital y respuesta ante incidentes (DFIR)? | IBM](https://www.ibm.com/mx-es/topics/dfir#:~:text=1,IRP%20para%20diferentes%20amenazas%20cibern%C3%A9ticas))  
-- WeLiveSecurity – *5 fases fundamentales del análisis forense digital* ([ ¿Qué es el análisis forense digital y respuesta ante incidentes (DFIR)? | IBM](https://www.ibm.com/mx-es/topics/dfir#:~:text=El%20an%C3%A1lisis%20forense%20digital%20investiga,e%20identificar%20a%20los%20culpables)) ([5 fases fundamentales del análisis forense digital](https://www.welivesecurity.com/es/recursos-herramientas/5-fases-fundamentales-del-analisis-forense-digital/#:~:text=Aqu%C3%AD%20es%20donde%20aparece%20el,actores%20que%20manipularon%20la%20muestra))  
+- Johansen, G. – *Digital Forensics and Incident Response* (Second Edition) ([Packt Publishing](https://www.packtpub.com/product/digital-forensics-and-incident-response-second-edition/9781788629384))  
+- Johansen, G. – *Digital Forensics and Incident Response* (First Edition) (an intelligent way to respond to attacks) ([Packt Publishing](https://www.packtpub.com/product/digital-forensics-and-incident-response/9781787288681))  
+- Sheward, M. – *Hands-on Incident Response and Digital Forensics* ([BCS Learning and Development Ltd](https://www.bcs.org/bookshop/product/hands-on-incident-response-and-digital-forensics/))  
+- Xu, W., Deng, L., & Xu, D. – *Towards Designing Shared Digital Forensics Instructional Materials* (University of Baltimore, Towson University, University of Missouri – Kansas City)  
+- Guerrero, G., Betarte, G., & Campo, J. D. – *Tectonic: An Academic Cyber Range* (IEEE Argencon 2024)
 - Wiz.io – *¿Qué es el DFIR?* (explicación de análisis forense vs respuesta a incidentes) ([¿Qué es el DFIR? | Wiz](https://www.wiz.io/es-es/academy/digital-forensics-and-incident-response-dfir#:~:text=El%20an%C3%A1lisis%20forense%20digital%20y,Combina%20dos%20%C3%A1reas%20clave)) ([¿Qué es el DFIR? | Wiz](https://www.wiz.io/es-es/academy/digital-forensics-and-incident-response-dfir#:~:text=,malware%20y%20restaurar%20los%20datos))  
 - NIST (SP 800-61r2) – Guía de gestión de incidentes de seguridad informática (principios de IR phases) ([ ¿Qué es el análisis forense digital y respuesta ante incidentes (DFIR)? | IBM](https://www.ibm.com/mx-es/topics/dfir#:~:text=1,IRP%20para%20diferentes%20amenazas%20cibern%C3%A9ticas)) ([ ¿Qué es el análisis forense digital y respuesta ante incidentes (DFIR)? | IBM](https://www.ibm.com/mx-es/topics/dfir#:~:text=2,falsos%20positivos%20y%20clasifican%20alertas))  
-- Field Effect – *Top 5 Cyber Range Training Best Practices* (blog) ([The top 5 cyber range training best practices](https://fieldeffect.com/blog/cyber-range-training-best-practices#:~:text=Ensure%20your%20cyber%20range%20has,prepare%20your%20team%20for%20response)) ([The top 5 cyber range training best practices](https://fieldeffect.com/blog/cyber-range-training-best-practices#:~:text=As%20an%20example%2C%20without%20a,threat%20scenarios%2C%20undermining%20learning%20goals))  
 - Tectonic (Universidad de la República) – Documentación oficial y repositorio GitHub ([](https://www.fing.edu.uy/inco/grupos/gsi/en/project/tectonic/#:~:text=Overview%3A%20Tectonic%20is%20a%20cyber,monitoring%20and%20automated%20attack%20simulations)) ([GitHub - GSI-Fing-Udelar/tectonic: An academic Cyber Range](https://github.com/GSI-Fing-Udelar/tectonic#:~:text=The%20lab%20configuration%20is%20divided,keys%20for%20the%20teachers%2C%20etc)) ([GitHub - GSI-Fing-Udelar/tectonic: An academic Cyber Range](https://github.com/GSI-Fing-Udelar/tectonic#:~:text=,directory))  
 - Tectonic Paper – *Tectonic: An Academic Cyber Range* (IEEE Argencon 2024) ([](https://www.fing.edu.uy/inco/grupos/gsi/en/project/tectonic/#:~:text=It%20incorporates%20existing%20tools%20from,and%20laboratories%20of%20this%20type)) ([](https://www.fing.edu.uy/inco/grupos/gsi/en/project/tectonic/#:~:text=Tectonic%20has%20been%20used%20in,in%20Uruguay%20and%20Latin%20America))  
 - MITRE Caldera – Página oficial (adversary emulation platform) ([Caldera](https://caldera.mitre.org/#:~:text=A%20Scalable%2C%20Automated%20Adversary%20Emulation,Platform)) ([Caldera](https://caldera.mitre.org/#:~:text=Autonomous%20Adversary%20Emulation))  
