@@ -87,6 +87,40 @@ Una revisión exhaustiva de lo sucedido, evaluando qué medidas funcionaron y cu
 
 Una enseñanza eficaz debe asegurarse de que los estudiantes comprendan estos conceptos. Por ejemplo, deben saber cómo hacer una copia forense de un disco sin alterarlo, qué pasos seguir ante una intrusión detectada en un servidor, y cómo documentar evidencias y acciones durante el incidente. Estos fundamentos guiarán las prácticas en el laboratorio.
 
+# Componentes Fundamentales de un Incident Response Plan (IRP)
+
+Un **Incident Response Plan (IRP)** es un documento formal, aprobado a nivel ejecutivo, que guía a una organización antes, durante y después de un incidente de ciberseguridad. Su objetivo es **clarificar roles y responsabilidades**, **organizar las comunicaciones** y **establecer protocolos de actuación** frente a incidentes confirmados o sospechados.
+
+Según las guías de **CISA** y **NIST**, los elementos esenciales de un IRP incluyen:
+
+## Antes de un incidente
+
+- **Entrenamiento de Personal**: Todos los miembros deben conocer su rol en la seguridad de la organización y saber cómo reportar incidentes sospechosos.
+- **Revisión Legal**: El IRP debe ser revisado por un asesor legal para asegurar que se alinea a las mejores prácticas legales y regulatorias.
+- **Contactos Estratégicos**: Establecer relaciones previas con CISA, agencias de aplicación de la ley (LEA), y otros stakeholders clave.
+- **Impresión Física de Documentos**: Asegurar la disponibilidad de copias impresas del IRP y de las listas de contactos en caso de interrupción digital.
+- **Planificación de Roles y Comunicación**: Definir claramente qué personas deben ser notificadas durante un incidente (por ejemplo, directores, inversores, socios estratégicos).
+- **Revisión Periódica**: El IRP debe ser revisado al menos trimestralmente para asegurar su vigencia.
+- **Preparación de Comunicaciones Públicas**: Disponer de comunicados preventivos para responder a consultas de prensa.
+- **Selección de Proveedores Técnicos Externos**: Anticipar quiénes serán los investigadores externos si se requiere asistencia.
+- **Simulaciones de Incidentes (Tabletop Exercises)**: Realizar ejercicios prácticos de simulación para evaluar la preparación organizacional.
+
+## Durante un incidente
+
+- **Asignación de Roles Críticos**:
+  - **Incident Manager (IM)**: Responsable de coordinar la respuesta, sin realizar tareas técnicas. El IM debe asegurarse de que las acciones se ejecuten sin que el "time dilation" (percepción distorsionada del tiempo en crisis) afecte el ritmo de respuesta.
+  - **Technical Manager (TM)**: Experto técnico que lidera la investigación y la ejecución de medidas técnicas.
+  - **Communications Manager (CM)**: Encargado de la interacción con medios de comunicación, stakeholders externos y redes sociales.
+
+## Después del incidente
+
+- **Reunión Retrospectiva Formal**:
+  - Reconstrucción de la **línea de tiempo** del incidente.
+  - Discusión abierta, **sin culpas individuales** ("blameless post-mortem").
+  - Análisis de fallas en personas, procesos y tecnologías.
+- **Actualización de Políticas y Procedimientos**: Incorporar las lecciones aprendidas en el IRP y en las prácticas de seguridad.
+- **Comunicación Interna de Resultados**: Informar a todo el personal sobre el incidente, reforzando la cultura de seguridad organizacional.
+
 # Propuesta para abordar: "Catalogar grandes áreas de respuesta a incidentes y mapear habilidades y procesos"
 
 ## 1. Definir las **Grandes Áreas** de la Respuesta a Incidentes
