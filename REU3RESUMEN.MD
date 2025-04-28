@@ -55,7 +55,7 @@ Una base teórica sólida de DFIR guía las prácticas en el cyber range. Los pu
 ---
 ### Respuesta a incidentes (gestión de incidentes)  
 - **Definición**: Conjunto de procedimientos y prácticas para detectar, contener y responder a incidentes de seguridad, minimizando su impacto. Su objetivo es **detener el ataque rápidamente, reducir el daño, recuperar sistemas** y aprender del evento. Una respuesta eficaz combina medidas técnicas y organizativas (comunicación, reporting, mejoras).  
-- **Plan de respuesta**: Las organizaciones deben contar con un **plan de respuesta a incidentes (IRP)** que establezca pasos, roles y responsabilidades cuando ocurre una brecha de seguridad. Los estudiantes deben familiarizarse con estos planes y con marcos de referencia como NIST SP 800-61 o ISO/IEC 27035.  
+- **Plan de respuesta**: Las organizaciones deben contar con un **plan de respuesta a incidentes (IRP)** que establezca pasos, roles y responsabilidades cuando ocurre una brecha de seguridad.
 - **Fases del manejo de incidentes** (basadas en NIST/CERT):
  1. **Preparación** 
 Uno de los componentes más críticos de la fase de preparación consiste en la elaboración de un Plan de Respuesta a Incidentes (IRP). Una vez que dicho plan se encuentra desarrollado e implementado, resulta esencial garantizar que el personal involucrado en tareas de respuesta a incidentes esté debidamente capacitado y cuente con una comprensión detallada y práctica de los procesos y procedimientos establecidos. Esta capacitación debe abarcar tanto los aspectos metodológicos como el uso de herramientas adicionales necesarias para llevar a cabo investigaciones forenses de manera efectiva.
