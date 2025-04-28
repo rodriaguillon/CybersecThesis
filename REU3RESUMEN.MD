@@ -84,7 +84,6 @@ Una revisión exhaustiva de lo sucedido, evaluando qué medidas funcionaron y cu
 
 --- TODO ESTO SALE DEL LIBRO DFIR.PDF (LIBRO 1) ---
 
-Una enseñanza eficaz debe asegurarse de que los estudiantes comprendan estos conceptos. Por ejemplo, deben saber cómo hacer una copia forense de un disco sin alterarlo, qué pasos seguir ante una intrusión detectada en un servidor, y cómo documentar evidencias y acciones durante el incidente. Estos fundamentos guiarán las prácticas en el laboratorio.
 
 # Componentes Fundamentales de un Incident Response Plan (IRP)
 
