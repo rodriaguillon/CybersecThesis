@@ -14,7 +14,7 @@
    Esta fase implica la adquisición segura de todas las evidencias digitales relevantes relacionadas con un incidente. Se prioriza la recolección siguiendo el **principio de volatilidad**: primero los datos más efímeros (memoria RAM, conexiones activas), luego los datos persistentes (discos, backups).  
    - El objetivo es preservar la integridad de la evidencia, garantizando que los originales no sean alterados en el proceso.
    - Se utilizan herramientas de adquisición forense certificadas que permiten generar copias bit a bit de dispositivos de almacenamiento y capturar imágenes de memoria.
-   - Es fundamental documentar toda acción realizada sobre las evidencias (cadena de custodia).
+   - Es fundamental documentar toda acción realizada sobre las evidencias para verificar que se esté manteniendo la  `cadena de custodia`.
 
 2. **Examinar**  
    Una vez recolectados los datos, se realiza un primer análisis estructurado de los mismos para identificar posibles indicadores de compromiso (IoCs).  
@@ -36,7 +36,7 @@
      - ¿Qué información fue robada o alterada?
    - Se reconstruyen **líneas de tiempo forenses** a partir de metadatos, logs de eventos y huellas dejadas por el atacante.
    - Se pueden utilizar herramientas específicas para análisis de malware, análisis de tráfico de red, o correlación de eventos múltiples.
-   - En algunos casos, se integran fuentes de **inteligencia de amenazas** para atribuir la actividad a grupos conocidos.
+   - En algunos casos, se integran fuentes de **inteligencia de amenazas** (threat intelligence) para atribuir la actividad a grupos conocidos.
 
 4. **Informe**  
    El análisis culmina en la elaboración de un **informe forense** detallado, que debe ser claro, estructurado y técnicamente sólido.  
@@ -117,7 +117,7 @@ Según las guías de **CISA** y **NIST**, los elementos esenciales de un IRP inc
 
 # Los Tres Grandes Enfoques del Análisis Forense Digital
 
-Durante el análisis forense de incidentes, existen tres categorías principales de aproximación al estudio de la evidencia digital, cada una enfocándose en distintos tipos de datos y técnicas [5](#referencias) [6](#referencias):
+Durante el análisis forense de incidentes, existen tres categorías principales de aproximación al estudio de la forensia digital, cada una enfocándose en distintos tipos de datos y técnicas [5](#referencias) [6](#referencias):
 
 ## 1. Media Analysis (Análisis de Medios)
 
@@ -257,7 +257,7 @@ Varios centros educativos y organizaciones ya emplean enfoques similares de cybe
 
 - **Currículum escalonado (ejemplo Carnegie Mellon)**: La Universidad Carnegie Mellon (a través del CERT/SEI) ofrece un track de *Cyber Forensics and Incident Response (CyFIR)* que sirve de inspiración sobre cómo organizar contenidos. En dicho programa, los estudiantes toman cursos de **Forense en Hosts**, **Forense de Red** y luego un **Capstone de Respuesta a Incidentes** integrador. Esta estructura refleja la progresión de enseñar primero análisis forense en entornos controlados (equipos individuales, redes pequeñas) y después combinarlo todo en un ejercicio complejo de respuesta a incidentes. Nuestra idea de cyberrange puede llegar a seguir una idea bastante similar a la planteada en este caso. El éxito de programas como el de CMU sugiere que esta progresión pedagógica es eficaz para cementar habilidades DFIR [11](#referencias).
 
-- **Cyber ranges académicos internacionales**: Instituciones como el Rochester Institute of Technology (RIT) cuentan con cyber ranges para entrenamiento avanzado donde simulan crisis de ciberseguridad a gran escala. El Cyber Range del ESL Global Cybersecurity Institute en RIT, por ejemplo, ofrece entrenamientos de respuesta a incidentes que incluyen escenarios de **ataques de Denegación de Servicio y Ransomware** , muy similares a los que planeamos incorporar. Ellos destacan la combinación de teoría con práctica interactiva y el valor de la enseñanza inmersiva (“real world feel of responding to a cybersecurity crisis”). Incluso recaban *datos de la experiencia de usuario y logs técnicos para fines de investigación*, lo cual es paralelo a nuestra idea de usar Elastic para seguimiento y análisis post-ejercicio. Si bien nuestro contexto es un curso académico más que entrenamiento corporativo, podemos inspirarnos en estos escenarios utilizados en RIT para afinar la relevancia de los casos propuestos (por ejemplo, seguramente un ejercicio de ransomware es muy educativo y memorable en este campo, y por eso lo incluyen) [10](#referencias).
+- **Cyber ranges académicos internacionales**: Instituciones como el Rochester Institute of Technology (RIT) cuentan con cyber ranges para entrenamiento avanzado donde simulan crisis de ciberseguridad a gran escala. El Cyber Range del ESL Global Cybersecurity Institute en RIT, por ejemplo, ofrece entrenamientos de respuesta a incidentes que incluyen escenarios de **ataques de Denegación de Servicio y Ransomware**. Ellos destacan la combinación de teoría con práctica interactiva y el valor de la enseñanza inmersiva (“real world feel of responding to a cybersecurity crisis”). Incluso recaban *datos de la experiencia de usuario y logs técnicos para fines de investigación*, lo cual es paralelo a nuestra idea de usar Elastic para seguimiento y análisis post-ejercicio en el caso que optemos por un escenario similar. Si bien nuestro contexto es un curso académico más que entrenamiento corporativo, podemos inspirarnos en estos escenarios utilizados en RIT para afinar la relevancia de los casos propuestos. [10](#referencias).
 
 - **Competiciones y desafíos CTF**: Aunque nuestro enfoque es educativo y no competitivo per se, vale la pena mencionar que muchas competencias universitarias de ciberseguridad (como el National Collegiate Cyber Defense Competition en EE.UU. o desafíos estilo CTF) incorporan elementos de DFIR. En ellos, los equipos deben mantener operativa la infraestructura mientras responden a inyecciones de ciberataques en tiempo real, obteniendo puntos por restaurar servicios y resolver inyects forenses. Estas experiencias refuerzan la idea de *aprendizaje bajo presión* y la gamificación. Podemos emular parcialmente ese modelo al incluir el componente de “capturar flags” por grupo en el escenario final, creando un ambiente que motive y recompense el descubrimiento de evidencias. La literatura muestra que la gamificación en cyber ranges puede aumentar el compromiso de los alumnos y simular el estrés de un incidente real de forma controlada. [7](#referencias)
 
