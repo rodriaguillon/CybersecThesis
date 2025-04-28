@@ -1,7 +1,6 @@
 # Diseño de un Cyber Range Educativo para Análisis Forense Digital y Gestión de Incidentes
 
 ## Conceptos Fundamentales en Análisis Forense Digital y Gestión de Incidentes  
-Una base teórica sólida de DFIR guía las prácticas en el cyber range. Los puntos clave incluyen:
 
 ### Análisis forense digital  
 - **Definición**: El uso de técnicas científicamente comprobadas para recolectar, fusionar, identificar, examinar, correlacionar, analizar y documentar evidencia digital proveniente de múltiples fuentes digitales que están procesando y transmitiendo activamente información, con el propósito de descubrir hechos relacionados con la intención planificada o el éxito medido de actividades no autorizadas destinadas a interrumpir, corromper o comprometer componentes del sistema, así como también de proporcionar información que asista en la respuesta o recuperación ante estas actividades. (ESTA SALIO DEL WORKSHOP)
