@@ -16,7 +16,7 @@
    - Se utilizan herramientas de adquisición forense certificadas que permiten generar copias bit a bit de dispositivos de almacenamiento y capturar imágenes de memoria.
    - Es fundamental documentar toda acción realizada sobre las evidencias (cadena de custodia).
 
-2. **Examen**  
+2. **Examinar**  
    Una vez recolectados los datos, se realiza un primer análisis estructurado de los mismos para identificar posibles indicadores de compromiso (IoCs).  
    - Esta etapa implica **filtrar la información irrelevante** para enfocar el esfuerzo en artefactos que podrían revelar actividades maliciosas.
    - Ejemplos de análisis preliminar incluyen la búsqueda de:
