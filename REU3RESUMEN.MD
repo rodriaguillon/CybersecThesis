@@ -117,7 +117,7 @@ Según las guías de **CISA** y **NIST**, los elementos esenciales de un IRP inc
 
 # Los Tres Grandes Enfoques del Análisis Forense Digital
 
-Durante el análisis forense de incidentes, existen tres categorías principales de aproximación al estudio de la evidencia digital, cada una enfocándose en distintos tipos de datos y técnicas [5](#referencias)[6](#referencias):
+Durante el análisis forense de incidentes, existen tres categorías principales de aproximación al estudio de la evidencia digital, cada una enfocándose en distintos tipos de datos y técnicas [5](#referencias) [6](#referencias):
 
 ## 1. Media Analysis (Análisis de Medios)
 
@@ -128,7 +128,7 @@ El **Media Analysis** implica examinar el **medio físico** en el que se almacen
   - Recuperar archivos eliminados.
   - Identificar particiones ocultas o sistemas de archivos anómalos.
   - Analizar los metadatos de archivos para entender modificaciones y accesos.
-  - Buscar artefactos forenses como logs de navegación, historial de ejecución de programas, artefactos de sistemas de correo, etc.
+  - Buscar artefactos forenses como logs de navegación, historial de ejecución de programas, entre otros.
 - **Desafíos**:
   - Limitaciones de herramientas que muchas veces están diseñadas para sistemas operativos específicos (ej., Windows vs Linux).
   - Dificultades para interpretar medios cifrados o dañados.
@@ -166,8 +166,6 @@ El **Network Analysis** se enfoca en el **tráfico de red** y en los **registros
 
 ## 1. Definir las **Grandes Áreas** del Análisis Forense de Incidentes
 
-Separaría la respuesta forense a incidentes en **macro-áreas funcionales** basadas en NIST SP800-86, buenas prácticas de DFIR y la estructura de análisis forense:
-
 | Área principal | Descripción resumida | Ejemplo de tareas |
 |:---------------|:---------------------|:------------------|
 | **Recopilación de Datos** | Adquirir de manera segura toda la evidencia digital relevante, priorizando según la volatilidad de los datos. | Capturar imágenes de memoria RAM, hacer copias forenses bit a bit de discos, recolectar tráfico de red, asegurar cadena de custodia. |
@@ -178,8 +176,6 @@ Separaría la respuesta forense a incidentes en **macro-áreas funcionales** bas
 ---
 
 ## 2. Catalogar las **Habilidades** necesarias en cada Área
-
-A partir de esas macro-áreas, definir **qué habilidades prácticas** debe demostrar un estudiante o analista DFIR:
 
 | Área | Habilidades clave |
 |:-----|:-----------------|
